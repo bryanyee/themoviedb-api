@@ -1,0 +1,11 @@
+body {
+  text-align: center;
+}
+
+h1, h3 {
+  margin: 0px;
+}
+
+#main-container {
+  padding: 20px 100px 0px 100px;
+}
