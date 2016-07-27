@@ -1,11 +1,48 @@
 body {
-  text-align: center;
+  text-align: left;
+  margin: 0;
 }
 
-h1, h3 {
+#header {
+  width: 100%;
+  overflow: auto;
+  border-bottom: 1px solid gray;
+  background-color: #e9e9e9;
+  padding: 5px 80px;
+}
+
+h1 {
+  display: inline-block;
   margin: 0px;
+}
+
+#subtitle {
+  font-weight: bold;
+  margin-left: 20px;
 }
 
 #main-container {
   padding: 20px 100px 0px 100px;
+}
+
+#movieSearchBox {
+  width: 400px;
+  font-size: 14pt;
+}
+
+button {
+  padding: 5px;
+  border: 1px solid gray;
+  background-color: #e9e9e9;
+  border-radius: 4px;
+}
+
+#footer {
+  position: absolute;
+  bottom: 0px;
+  width: 100%;
+  overflow: auto;
+  padding: 16px 80px;
+  border-top: 1px solid gray;
+  background-color: #e9e9e9;
 }
