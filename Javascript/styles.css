@@ -1,6 +1,12 @@
+html {
+  height: 100%;
+}
+
 body {
-  text-align: left;
+  position: relative;
   margin: 0;
+  min-height: 100%; 
+  text-align: left;
 }
 
 .bc-light-gray {
@@ -56,7 +62,7 @@ button {
   width: 600px;
   border: 1px solid #e9e9e9;
   border-radius: 5px;
-  padding: 10px;
+  padding: 10px 10px 60px;
 }
 
 .results-box {
@@ -70,7 +76,7 @@ button {
 
 #footer {
   position: absolute;
-  bottom: 0px;
+  bottom: 0;
   width: 100%;
   overflow: auto;
   padding: 16px 80px;

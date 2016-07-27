@@ -1,5 +1,5 @@
  
-const key = '<INSERT_YOUR_API_KEY';
+const key = '<INSERT_YOUR_API_KEY>';
 const resultsContainer = document.getElementById('results-container');
 const movieSearchBox = document.getElementById('movieSearchBox');
 let resultsIndex = 0;
@@ -13,7 +13,7 @@ function searchForMovies() {
   let searchResults;
 
   //Reset resultsContainer
-  resultsContainer.innerHTML = `<h3>Results for '${queryValue}'</h3><br><br>`;
+  resultsContainer.innerHTML = `<h3>Results for "${queryValue}"</h3><br><br>`;
   resultsContainer.style.display = 'block';
   resultsIndex = 0;
 
