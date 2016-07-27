@@ -21,6 +21,10 @@ body {
   color: #545454;
 }
 
+.fr {
+  float: right;
+}
+
 #header {
   width: 100%;
   overflow: auto;

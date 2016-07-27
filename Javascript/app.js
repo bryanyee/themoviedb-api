@@ -2,18 +2,15 @@
 const key = '<INSERT_YOUR_API_KEY>';
 const resultsContainer = document.getElementById('results-container');
 const movieSearchBox = document.getElementById('movieSearchBox');
-let resultsIndex = 0;
+let resultsIndex = 0, sortIndex = 0;
+let searchResults, queryValue;
 
 //Request and display list of movie results based on the search box
 function searchForMovies() {
   //Prepare for AJAX request
-  let queryValue = movieSearchBox.value;
+  queryValue = movieSearchBox.value;
   let encodedQueryValue = encodeURI(queryValue);
   let url = `http://api.themoviedb.org/3/search/movie?api_key=${key}&query=${encodedQueryValue}`;
-  let searchResults;
-
-  //Reset resultsContainer
-  preFormatResults('resultsList', queryValue);
 
   //AJAX request to search for movies by title
   let request = new XMLHttpRequest();
@@ -22,20 +19,25 @@ function searchForMovies() {
 
   request.onreadystatechange = function() {
     if (this.readyState === 4) {
-      searchResults = JSON.parse(request.responseText).results;
-      searchResults.forEach(showResult);
+      preFormatResults('resultsList');                      //Format page
+      searchResults = JSON.parse(request.responseText).results.slice(); //Collect search results
+      searchResults.forEach(showQueryResult);                           //Show search results
     }
   };  
 
   request.send();
 }
 
-function preFormatResults(option, queryValue) {
+function preFormatResults(option) {
   if (option === 'resultsList') {
-    resultsContainer.innerHTML = `<h3>Results for "${queryValue}"</h3><br><br>`;
     resultsContainer.style.display = 'block';
     resultsContainer.style.backgroundColor = 'white';
     resultsIndex = 0;
+    sortIndex = 0;
+    searchResults = undefined;
+
+    resultsContainer.innerHTML = `<h3>Results for "${queryValue}"</h3>`;
+    resultsContainer.innerHTML += `<button class='fr' onclick='sortResultsByDate()'>Sort by Release Date</button><br><br>`
   }
   else if (option === 'movieData') {
     resultsContainer.innerHTML = "";
@@ -43,8 +45,31 @@ function preFormatResults(option, queryValue) {
   }
 }
 
+function sortResultsByDate() {
+  if (sortIndex % 2 === 0) {
+    searchResults.sort((a, b) => {
+      let releaseA = Number(a.release_date.replace(/-/g, ''));
+      let releaseB = Number(b.release_date.replace(/-/g, ''));
+      return releaseB - releaseA;
+    });
+  }
+  else {
+    searchResults.sort((a, b) => {
+      let releaseA = Number(a.release_date.replace(/-/g, ''));
+      let releaseB = Number(b.release_date.replace(/-/g, ''));
+      return releaseA - releaseB;
+    });
+  }
+
+  resultsContainer.innerHTML = `<h3>Results for "${queryValue}"</h3>`;
+  resultsContainer.innerHTML += `<button class='fr' onclick='sortResultsByDate()'>Sort by Release Date</button><br><br>`
+  searchResults.forEach(showQueryResult); 
+
+  sortIndex++;
+}
+
 //Display summary data for a movie search result
-function showResult(result) {
+function showQueryResult(result) {
   let title = result.title;
   let id = result.id;
   let releaseDate = `<span class='year'>(${result.release_date.slice(0,4)})</span>` || `<span class='year'>(release date unavailable)</span>`;
@@ -70,6 +95,7 @@ function requestMovieData(id) {
 
   request.onreadystatechange = function() {
     if (request.readyState === 4) {
+      preFormatResults('movieData');
       displayMovieData(request);
     }
   };
@@ -80,7 +106,6 @@ function requestMovieData(id) {
 //Display detailed data for a specified movie
 function displayMovieData(request){
   movieData = JSON.parse(request.responseText);
-  preFormatResults('movieData');
   let title = movieData.title || 'No title available';
   let overview = movieData.overview || 'No overview available.';
   let posterPath = `http://image.tmdb.org/t/p/w500${movieData.poster_path}`;
