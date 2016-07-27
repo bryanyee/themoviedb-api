@@ -119,6 +119,11 @@ button:hover {
   color: white;
 }
 
+.castName {
+  display: inline-block;
+  width: 240px;
+}
+
 #footer {
   position: absolute;
   bottom: 0;

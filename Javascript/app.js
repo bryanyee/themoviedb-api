@@ -21,6 +21,7 @@ function searchForMovies() {
     if (this.readyState === 4) {
       preFormatResults('resultsList');                                  //Format page
       searchResults = JSON.parse(request.responseText).results.slice(); //Collect search results
+      console.log('Search Reponse:', searchResults);
       searchResults.forEach(showQueryResult);                           //Show search results
     }
   };  
@@ -86,7 +87,9 @@ function showQueryResult(result) {
 //Request detailed data for a specified movie
 function requestMovieData(id) {
   let movieData;
-  let url = `http://api.themoviedb.org/3/movie/${id}?api_key=${key}`;
+  let url = `http://api.themoviedb.org/3/movie/${id}?api_key=${key}&append_to_response=credits`;
+  //Note the inclusion of the 'append_to_response=credits' parameter to make an additional request.
+  //The response will be appended to the original JSON response.
 
   //AJAX request to retrieve movie data
   let request = new XMLHttpRequest();  
@@ -106,6 +109,8 @@ function requestMovieData(id) {
 //Display detailed data for a specified movie
 function displayMovieData(request){
   movieData = JSON.parse(request.responseText);
+  console.log('Response with movie data:', movieData); 
+
   let title = movieData.title || 'No title available';
   let overview = movieData.overview || 'No overview available.';
   let posterPath = `http://image.tmdb.org/t/p/w500${movieData.poster_path}`;
@@ -113,6 +118,8 @@ function displayMovieData(request){
   let rating = movieData.vote_average ? `${movieData.vote_average} / 10` : 'No rating available';
   let runtime = movieData.runtime ? `${movieData.runtime}min` : 'No runtime available.';
   let homepageURL = movieData.homepage || '';
+  let directors = movieData.credits.crew.filter( person => person.job === 'Director' );
+  let cast = movieData.credits.cast;
 
   resultsContainer.innerHTML =  movieData.poster_path ? `<img src='${posterPath}'>` : '';
   resultsContainer.innerHTML += `<h1>${title}</h1>`
@@ -122,4 +129,19 @@ function displayMovieData(request){
                               + `<span class='fw-bold'>Runtime:</span> ${runtime}<br>`
                               + `<span class='fw-bold'>Homepage:</span> `;
   resultsContainer.innerHTML += (homepageURL !== '') ? `<a href='${homepageURL}'>${homepageURL}</a><br>` : 'No homepage available.<br>';
+
+  appendPeopleInfo(directors, cast);
+}
+
+function appendPeopleInfo(directors, cast) {
+  resultsContainer.innerHTML += (directors.length > 1) ? `<span class='fw-bold'>Directors:</span> ` : `<span class='fw-bold'>Director:</span> `;
+  for (let i = 0; i < directors.length; i++){
+    resultsContainer.innerHTML += `${directors[i].name}`;
+    if ( i < directors.length - 1) resultsContainer.innerHTML += ', ';
+  }
+
+  resultsContainer.innerHTML += `<br><span class='fw-bold'>Cast:</span><br>`;
+  for (let i = 0; i < cast.length; i++){
+    resultsContainer.innerHTML += `<span class='castName'>${cast[i].name}</span>:  ${cast[i].character}<br>`;
+  }
 }
