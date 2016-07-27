@@ -1,25 +1,50 @@
  
-var key = '<INSERT_YOUR_API_KEY>';
-var movieData;
-var resultsContainer = document.getElementById('results-container');
+const key = '<INSERT_YOUR_API_KEY>';
+const resultsContainer = document.getElementById('results-container');
+const movieSearchBox = document.getElementById('movieSearchBox');
 
-function movieSearch() {
-  var request = new XMLHttpRequest();  
+//Create list of movie results based on the search box
+function searchForMovies() {
+  let query = movieSearchBox.value;
+  let url = 'http://api.themoviedb.org/3/search/movie?api_key=' + key + '&query=' + query;
+  let searchResults;
 
+  //AJAX request to search for movies by title
+  let request = new XMLHttpRequest();
+  request.open('GET', url);  
+  request.setRequestHeader('Accept', 'application/json');  
+
+  request.onreadystatechange = function() {
+    if (this.readyState === 4) {
+      searchResults = JSON.parse(request.responseText).results;
+      searchResults.forEach(showResult);
+    }
+  };  
+
+  request.send();
+}
+
+//Display summary data for a movie search result
+function showResult(result) {
+  let title = result.title;
+  let resultDiv = document.createElement('div');
+  resultDiv.innerHTML = `<div class='results-box'>${title}</div>`;
+  resultsContainer.appendChild(resultDiv);
+}
+
+//Display detailed data for a specified movie
+function getMovieData() {
+  let movieData;
+
+  //AJAX request to retrieve movie data
+  let request = new XMLHttpRequest();  
   request.open('GET', 'http://api.themoviedb.org/3/movie/209112?api_key=' + key);  
-
   request.setRequestHeader('Accept', 'application/json');  
 
   request.onreadystatechange = function() {
     if (request.readyState === 4) {
-      console.log('Status:', request.status);
-      console.log('Headers:', request.getAllResponseHeaders());
       movieData = JSON.parse(request.responseText);
-      console.log(movieData.original_title);
-      console.log(movieData.overview);  
-  
-
-      resultsContainer.innerHTML = movieData.original_title + '<br>' + movieData.overview;
+      resultsContainer.innerHTML = movieData.title + '<br>' + movieData.overview;
     }
   };
 
