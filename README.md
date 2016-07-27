@@ -4,4 +4,5 @@ This project has separate sub-projects for making API calls via plain JavaScript
 
 
 ###Credits
-This product uses the TMDb API but is not endorsed or certified by TMDb.
+This product uses the [TMDb API](https://www.themoviedb.org/) but is not endorsed or certified by TMDb.<br><br>
+NOTE: Developers must obtain an API key to use the TMDb API. See TMDb's documentation.
