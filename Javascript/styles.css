@@ -17,6 +17,10 @@ body {
   background-color: #fafafa;
 }
 
+.color-dark-gray {
+  color: #545454;
+}
+
 #header {
   width: 100%;
   overflow: auto;
@@ -28,6 +32,11 @@ body {
 h1, h3 {
   display: inline-block;
   margin: 0px;
+}
+
+#results-container h1 {
+  display: block;
+  margin-bottom: 20px;
 }
 
 #subtitle {
@@ -63,19 +72,43 @@ button:hover {
 
 #results-container {
   display: none;
-  width: 600px;
+  width: 860px;
   border: 1px solid #e9e9e9;
   border-radius: 5px;
   padding: 10px 10px 60px;
+  background-color: white;
+  overflow: auto;
 }
 
 .results-box {
   padding: 10px;
   cursor: pointer;
+  color: #136cb2;
+  font-family: Verdana, Arial, sans-serif;
+  font-size: 11pt;
 }
 
 .results-box:hover {
   background-color: #c5e3ed;
+}
+
+.year {
+  color: black;
+}
+
+#results-container img {
+  width: 260px;
+  float: left;
+  margin-right: 20px;
+}
+
+#rating {
+  display: inline;
+  margin-left: 20px;
+  padding: 5px 10px;
+  background-color: red;
+  border-radius: 10px;
+  color: white;
 }
 
 #footer {
