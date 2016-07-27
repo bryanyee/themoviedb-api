@@ -57,6 +57,10 @@ button {
   cursor: pointer;
 }
 
+button:hover {
+  box-shadow: 2px 2px 2px black;
+}
+
 #results-container {
   display: none;
   width: 600px;
