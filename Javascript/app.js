@@ -19,7 +19,7 @@ function searchForMovies() {
 
   request.onreadystatechange = function() {
     if (this.readyState === 4) {
-      preFormatResults('resultsList');                      //Format page
+      preFormatResults('resultsList');                                  //Format page
       searchResults = JSON.parse(request.responseText).results.slice(); //Collect search results
       searchResults.forEach(showQueryResult);                           //Show search results
     }
@@ -111,10 +111,15 @@ function displayMovieData(request){
   let posterPath = `http://image.tmdb.org/t/p/w500${movieData.poster_path}`;
   let releaseYear = movieData.release_date ? `(${movieData.release_date.slice(0,4)})` : 'No release date available';
   let rating = movieData.vote_average ? `${movieData.vote_average} / 10` : 'No rating available';
+  let runtime = movieData.runtime ? `${movieData.runtime}min` : 'No runtime available.';
+  let homepageURL = movieData.homepage || '';
 
   resultsContainer.innerHTML =  movieData.poster_path ? `<img src='${posterPath}'>` : '';
-  resultsContainer.innerHTML += `<h1>${title}</h1>`;
-  resultsContainer.innerHTML += `<span class='color-dark-gray'>${releaseYear}</span>`;
-  resultsContainer.innerHTML += `<div id='rating'>${rating}</div><br><br>`;
-  resultsContainer.innerHTML += `<span>${overview}</span>`;
+  resultsContainer.innerHTML += `<h1>${title}</h1>`
+                              + `<span class='color-dark-gray'>${releaseYear}</span>`
+                              + `<div id='rating'>${rating}</div><br><br>`
+                              + `<span>${overview}</span><br><br><br>`
+                              + `<span class='fw-bold'>Runtime:</span> ${runtime}<br>`
+                              + `<span class='fw-bold'>Homepage:</span> `;
+  resultsContainer.innerHTML += (homepageURL !== '') ? `<a href='${homepageURL}'>${homepageURL}</a><br>` : 'No homepage available.<br>';
 }
