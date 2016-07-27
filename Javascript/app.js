@@ -5,9 +5,12 @@ const movieSearchBox = document.getElementById('movieSearchBox');
 
 //Create list of movie results based on the search box
 function searchForMovies() {
-  let query = movieSearchBox.value;
-  let url = 'http://api.themoviedb.org/3/search/movie?api_key=' + key + '&query=' + query;
+  let queryValue = movieSearchBox.value;
+  let encodedQueryValue = encodeURI(queryValue);
+  let url = `http://api.themoviedb.org/3/search/movie?api_key=${key}&query=${encodedQueryValue}`;
   let searchResults;
+
+  resultsContainer.innerHTML = `<h3>Results for "${queryValue}"</h3>`;
 
   //AJAX request to search for movies by title
   let request = new XMLHttpRequest();

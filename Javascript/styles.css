@@ -11,7 +11,7 @@ body {
   padding: 5px 80px;
 }
 
-h1 {
+h1, h3 {
   display: inline-block;
   margin: 0px;
 }
@@ -23,6 +23,10 @@ h1 {
 
 #main-container {
   padding: 20px 100px 0px 100px;
+}
+
+#search-container {
+  margin-bottom: 20px;
 }
 
 #movieSearchBox {
