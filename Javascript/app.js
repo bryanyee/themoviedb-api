@@ -3,8 +3,7 @@ const key = '<INSERT_YOUR_API_KEY>';
 const resultsContainer = document.getElementById('results-container');
 const movieSearchBox = document.getElementById('movieSearchBox');
 let resultsIndex = 0, sortIndex = 0;
-let searchResults, queryValue;
-let castContainer;
+let searchResults, queryValue, castContainer, cast;
 
 //Request and display list of movie results based on the search box
 function searchForMovies() {
@@ -37,6 +36,7 @@ function preFormatResults(option) {
     resultsIndex = 0;
     sortIndex = 0;
     searchResults = undefined;
+    castContainer = undefined;
 
     resultsContainer.innerHTML = `<h3>Results for "${queryValue}"</h3>`;
     resultsContainer.innerHTML += `<button class='fr' onclick='sortResultsByDate()'>Sort by Release Date</button><br><br>`
@@ -120,7 +120,7 @@ function displayMovieData(request){
   let runtime = movieData.runtime ? `${movieData.runtime}min` : 'No runtime available.';
   let homepageURL = movieData.homepage || '';
   let directors = movieData.credits.crew.filter( person => person.job === 'Director' );
-  let cast = movieData.credits.cast;
+  cast = movieData.credits.cast;
 
   resultsContainer.innerHTML =  movieData.poster_path ? `<img src='${posterPath}'>` : '';
   resultsContainer.innerHTML += `<h1>${title}</h1>`
@@ -131,10 +131,11 @@ function displayMovieData(request){
                               + `<span class='fw-bold'>Homepage:</span> `;
   resultsContainer.innerHTML += (homepageURL !== '') ? `<a href='${homepageURL}'>${homepageURL}</a><br>` : 'No homepage available.<br>';
 
-  appendPeopleInfo(directors, cast);
+  appendDirectorInfo(directors);
+  appendCastInfo('short');
 }
 
-function appendPeopleInfo(directors, cast) {
+function appendDirectorInfo(directors) {
   //append director(s) info
   resultsContainer.innerHTML += (directors.length > 1) ? `<span class='fw-bold'>Directors:</span> ` : `<span class='fw-bold'>Director:</span> `;
   for (let i = 0; i < directors.length; i++){
@@ -142,15 +143,35 @@ function appendPeopleInfo(directors, cast) {
     if ( i < directors.length - 1) resultsContainer.innerHTML += ', ';
   }
   resultsContainer.innerHTML += '<br>';
+}
 
-  //append cast info
+function appendCastInfo(length) {
+  if (castContainer) {
+    castContainer = resultsContainer.removeChild(castContainer);
+  }
   castContainer = document.createElement('div');
   castContainer.id = 'castContainer';
   castContainer.innerHTML += `<span class='fw-bold'>Cast:</span><br>`;
-
-  for (let i = 0; i < cast.length; i++){
-    castContainer.innerHTML += `<span class='castName'>${cast[i].name}</span>:  ${cast[i].character}<br>`;
-  }
   
+  if (length === 'short') {
+    let totalMembers = (cast.length < 10) ? cast.length : 10;
+    for (let i = 0; i < totalMembers; i++){
+      castContainer.innerHTML += `<span class='castName'>${cast[i].name}</span>:  ${cast[i].character}<br>`;
+    }
+
+    //add button to show all cast members, if necessary
+    if (cast.length > 10) {
+      castContainer.innerHTML += `<br><button onclick="appendCastInfo('long')">Show Full Cast</button><br>`;
+    }
+  }//end of 'short' code block
+  else if (length === 'long') {
+    for (let i = 0; i < cast.length; i++){
+      castContainer.innerHTML += `<span class='castName'>${cast[i].name}</span>:  ${cast[i].character}<br>`;
+    }
+
+    //add button to show less cast members
+    castContainer.innerHTML += `<br><button onclick="appendCastInfo('short')">Show Less</button><br>`;
+  }//end of 'long' code block
+
   resultsContainer.appendChild(castContainer);
 }
