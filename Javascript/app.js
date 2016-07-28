@@ -4,6 +4,7 @@ const resultsContainer = document.getElementById('results-container');
 const movieSearchBox = document.getElementById('movieSearchBox');
 let resultsIndex = 0, sortIndex = 0;
 let searchResults, queryValue;
+let castContainer;
 
 //Request and display list of movie results based on the search box
 function searchForMovies() {
@@ -134,14 +135,22 @@ function displayMovieData(request){
 }
 
 function appendPeopleInfo(directors, cast) {
+  //append director(s) info
   resultsContainer.innerHTML += (directors.length > 1) ? `<span class='fw-bold'>Directors:</span> ` : `<span class='fw-bold'>Director:</span> `;
   for (let i = 0; i < directors.length; i++){
     resultsContainer.innerHTML += `${directors[i].name}`;
     if ( i < directors.length - 1) resultsContainer.innerHTML += ', ';
   }
+  resultsContainer.innerHTML += '<br>';
 
-  resultsContainer.innerHTML += `<br><span class='fw-bold'>Cast:</span><br>`;
+  //append cast info
+  castContainer = document.createElement('div');
+  castContainer.id = 'castContainer';
+  castContainer.innerHTML += `<span class='fw-bold'>Cast:</span><br>`;
+
   for (let i = 0; i < cast.length; i++){
-    resultsContainer.innerHTML += `<span class='castName'>${cast[i].name}</span>:  ${cast[i].character}<br>`;
+    castContainer.innerHTML += `<span class='castName'>${cast[i].name}</span>:  ${cast[i].character}<br>`;
   }
+  
+  resultsContainer.appendChild(castContainer);
 }

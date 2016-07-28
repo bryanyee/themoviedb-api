@@ -119,6 +119,11 @@ button:hover {
   color: white;
 }
 
+#castContainer {
+  width: 580px;
+  display: inline-block;
+}
+
 .castName {
   display: inline-block;
   width: 240px;
