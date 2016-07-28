@@ -175,3 +175,8 @@ function appendCastInfo(length) {
 
   resultsContainer.appendChild(castContainer);
 }
+
+function hideResults() {
+  resultsContainer.style.display = 'none';
+  movieSearchBox.value = '';
+}
