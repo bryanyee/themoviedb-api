@@ -18,10 +18,10 @@ function searchForMovies() {
   request.setRequestHeader('Accept', 'application/json');  
 
   request.onreadystatechange = function() {
-    if (this.readyState === 4) {
+    if (request.readyState === 4) {
       preFormatResults('resultsList');                                  //Format page
-      searchResults = JSON.parse(request.responseText).results.slice(); //Collect search results
-      console.log('Search Reponse:', searchResults);
+      searchResults = JSON.parse(request.responseText).results;         //Collect search results
+      console.log('/search/movie parsed response: ', JSON.parse(request.responseText));
       searchResults.forEach(showQueryResult);                           //Show search results
     }
   };  
@@ -110,7 +110,7 @@ function requestMovieData(id) {
 //Display detailed data for a specified movie
 function displayMovieData(request){
   movieData = JSON.parse(request.responseText);
-  console.log('Response with movie data:', movieData); 
+  console.log('/movie/id parsed response: ', movieData); 
 
   let title = movieData.title || 'No title available';
   let overview = movieData.overview || 'No overview available.';
