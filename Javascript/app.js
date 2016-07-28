@@ -21,8 +21,11 @@ function searchForMovies() {
     if (request.readyState === 4) {
       preFormatResults('resultsList');                                  //Format page
       searchResults = JSON.parse(request.responseText).results;         //Collect search results
-      console.log('/search/movie parsed response: ', JSON.parse(request.responseText));
+      resultsContainer.innerHTML = `<h3>${searchResults.length} Results for "${queryValue}"</h3>`;
+      resultsContainer.innerHTML += `<button class='fr' onclick='sortResultsByDate()'>Sort by Release Date</button><br><br>`;
       searchResults.forEach(showQueryResult);                           //Show search results
+
+      console.log('/search/movie parsed response: ', JSON.parse(request.responseText));
     }
   };  
 
@@ -37,9 +40,6 @@ function preFormatResults(option) {
     sortIndex = 0;
     searchResults = undefined;
     castContainer = undefined;
-
-    resultsContainer.innerHTML = `<h3>Results for "${queryValue}"</h3>`;
-    resultsContainer.innerHTML += `<button class='fr' onclick='sortResultsByDate()'>Sort by Release Date</button><br><br>`
   }
   else if (option === 'movieData') {
     resultsContainer.innerHTML = "";
@@ -63,7 +63,7 @@ function sortResultsByDate() {
     });
   }
 
-  resultsContainer.innerHTML = `<h3>Results for "${queryValue}"</h3>`;
+  resultsContainer.innerHTML = `<h3>${searchResults.length} Results for "${queryValue}"</h3>`;
   resultsContainer.innerHTML += `<button class='fr' onclick='sortResultsByDate()'>Sort by Release Date</button><br><br>`
   searchResults.forEach(showQueryResult); 
 
