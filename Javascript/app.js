@@ -115,7 +115,7 @@ function displayMovieData(request){
   let posterPath = `http://image.tmdb.org/t/p/w500${movieData.poster_path}`;
   let releaseYear = movieData.release_date ? `(${movieData.release_date.slice(0,4)})` : 'No release date available';
   let rating = movieData.vote_average ? `${movieData.vote_average} / 10` : 'No rating available';
-  let runtime = movieData.runtime ? `${movieData.runtime}min` : 'No runtime available.';
+  let runtime = movieData.runtime ? `${movieData.runtime} min` : 'No runtime available.';
   let homepageURL = movieData.homepage || '';
   let directors = movieData.credits.crew.filter( person => person.job === 'Director' );
   cast = movieData.credits.cast;
