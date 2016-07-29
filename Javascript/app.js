@@ -15,7 +15,6 @@ function searchForMovies() {
   //AJAX request to search for movies by title
   let request = new XMLHttpRequest();
   request.open('GET', url);  
-  request.setRequestHeader('Accept', 'application/json');  
 
   request.onreadystatechange = function() {
     if (request.readyState === 4) {
@@ -95,7 +94,6 @@ function requestMovieData(id) {
   //AJAX request to retrieve movie data
   let request = new XMLHttpRequest();  
   request.open('GET', url);  
-  request.setRequestHeader('Accept', 'application/json');  
 
   request.onreadystatechange = function() {
     if (request.readyState === 4) {
