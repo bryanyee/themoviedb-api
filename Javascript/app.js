@@ -31,6 +31,10 @@ function searchForMovies() {
   request.send();
 }
 
+movieSearchBox.addEventListener('keyup', function(event) {
+  if (event.key === 'Enter') searchForMovies();
+});
+
 function preFormatResults(option) {
   if (option === 'resultsList') {
     resultsContainer.style.display = 'block';

@@ -82,6 +82,10 @@ button:hover {
   box-shadow: 2px 2px 2px black;
 }
 
+button:active {
+  border: 2px solid black;
+}
+
 #results-container {
   display: none;
   width: 860px;
