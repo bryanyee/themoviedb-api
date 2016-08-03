@@ -46,6 +46,10 @@ h1, h3 {
   cursor: pointer;
 }
 
+#header h1:active {
+  color: #136cb2;
+}
+
 #results-container h1 {
   display: block;
   margin-bottom: 20px;
@@ -67,6 +71,7 @@ h1, h3 {
 #movieSearchBox {
   width: 340px;
   font-size: 14pt;
+  -webkit-appearance: none;
 }
 
 button {
